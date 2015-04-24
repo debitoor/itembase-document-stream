@@ -1,4 +1,4 @@
-# itembase-document-stream
+# itembase-document-stream [![Build Status](https://travis-ci.org/e-conomic/itembase-document-stream.svg)](https://travis-ci.org/e-conomic/itembase-document-stream)
 
 Stream itembase documents. Handles pagination and refreshing the access token if necessary.
 
