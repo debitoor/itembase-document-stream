@@ -47,6 +47,8 @@ The `client` option, together with the `refresh_token`, is necessary to be able 
 
 It's also possible to override the base URLs in the options map, and pass additional query parameters to the API request.
 
+Additionally a `start` event is emitted when the first request is performed. It contains, among other things, total number of documents to expect.
+
 ## License
 
 [MIT](http://opensource.org/licenses/MIT)
