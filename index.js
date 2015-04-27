@@ -114,7 +114,7 @@ module.exports = function(url, tokens, options) {
 
 			data = body;
 			current = 0;
-			offset += body.num_documents_returned;
+			offset += data.num_documents_returned;
 			callback(null, data.documents[current++]);
 		});
 	};
