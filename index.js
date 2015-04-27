@@ -3,6 +3,7 @@ var appendQuery = require('append-query');
 var itembase = require('itembase');
 var extend = require('xtend');
 var from = require('from2');
+var once = require('once');
 
 var config = require('./default.config');
 
@@ -73,6 +74,13 @@ module.exports = function(url, tokens, options) {
 		request(false, next);
 	});
 
+	var start = once(function(data, query) {
+		stream.emit('start', {
+			total: data.num_documents_found,
+			limit: query.document_limit
+		});
+	});
+
 	var refresh = function(callback) {
 		itembase().post(tokenUrl, function(err, response, body) {
 			if(err) {
@@ -115,6 +123,7 @@ module.exports = function(url, tokens, options) {
 			data = body;
 			current = 0;
 			offset += data.num_documents_returned;
+			start(data, resourceQuery);
 			callback(null, data.documents[current++]);
 		});
 	};

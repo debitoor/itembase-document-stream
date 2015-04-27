@@ -12,7 +12,7 @@ var now = (new Date()).toISOString();
 
 describe('itembase document stream', function() {
 	describe('get all buyers', function() {
-		var apiServer, result;
+		var apiServer, result, options;
 
 		before(function() {
 			apiServer = nock(config.api, {
@@ -22,7 +22,7 @@ describe('itembase document stream', function() {
 				})
 				.get('/v1/users/test_user_id/buyers?' + qs.stringify({
 					created_at_to: now,
-					document_limit: 50,
+					document_limit: 2,
 					start_at_document: 0
 				}))
 				.reply(200, {
@@ -32,7 +32,7 @@ describe('itembase document stream', function() {
 				})
 				.get('/v1/users/test_user_id/buyers?' + qs.stringify({
 					created_at_to: now,
-					document_limit: 50,
+					document_limit: 2,
 					start_at_document: 2
 				}))
 				.reply(200, {
@@ -44,10 +44,14 @@ describe('itembase document stream', function() {
 
 		before(function(done) {
 			var stream = itembase('/v1/users/test_user_id/buyers', 'test_access_token', {
-				query: { created_at_to: now }
+				query: { created_at_to: now, document_limit: 2 }
 			});
 			var sink = concat({ encoding: 'object' }, function(data) {
 				result = data;
+			});
+
+			stream.once('start', function(result) {
+				options = result;
 			});
 
 			pump(stream, sink, done);
@@ -55,6 +59,13 @@ describe('itembase document stream', function() {
 
 		it('should return all buyers', function() {
 			expect(result).to.deep.equal(fixtures.buyers);
+		});
+
+		it('should emit start event', function() {
+			expect(options).to.deep.equal({
+				total: 3,
+				limit: 2
+			});
 		});
 
 		it('should have called all mocks', function() {
