@@ -1,6 +1,6 @@
 {
   "name": "itembase-document-stream",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Stream itembase documents",
   "main": "index.js",
   "scripts": {
