@@ -4,25 +4,11 @@ var itembase = require('itembase');
 var extend = require('xtend');
 var from = require('from2');
 var once = require('once');
+var isOk = require('is-ok');
 
 var config = require('./default.config');
 
 var DEFAULT_DOCUMENT_LIMIT = 50;
-
-var validStatusCode = function(response, callback) {
-	var status = response.statusCode;
-	var valid = (/2\d\d/).test(status);
-
-	if(!valid) {
-		var err = new Error('Non 2xx status code: ' + status);
-		err.statusCode = response.statusCode;
-		err.headers = response.headers;
-		err.body = response.body;
-		callback(err);
-	}
-
-	return valid;
-};
 
 var toISOString = function(date) {
 	return (typeof date === 'string') ? date : date.toISOString();
@@ -86,7 +72,7 @@ module.exports = function(url, tokens, options) {
 			if(err) {
 				return callback(err);
 			}
-			if(!validStatusCode(response, callback)) {
+			if(!isOk(response, callback)) {
 				return;
 			}
 
@@ -116,7 +102,7 @@ module.exports = function(url, tokens, options) {
 					request(true, callback);
 				});
 			}
-			if(!validStatusCode(response, callback)) {
+			if(!isOk(response, callback)) {
 				return;
 			}
 
