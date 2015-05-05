@@ -11,7 +11,7 @@ var config = require('./default.config');
 var DEFAULT_DOCUMENT_LIMIT = 50;
 
 var toISOString = function(date) {
-	return (typeof date === 'string') ? date : date.toISOString();
+	return (!date || typeof date === 'string') ? date : date.toISOString();
 };
 
 module.exports = function(url, tokens, options) {
@@ -85,7 +85,10 @@ module.exports = function(url, tokens, options) {
 	var request = function(refreshed, callback) {
 		var resourceQuery = extend({ created_at_to: now, document_limit: DEFAULT_DOCUMENT_LIMIT },
 			query || {}, { start_at_document: offset });
+		resourceQuery.created_at_from = toISOString(resourceQuery.created_at_from);
 		resourceQuery.created_at_to = toISOString(resourceQuery.created_at_to);
+		resourceQuery.updated_at_from = toISOString(resourceQuery.updated_at_from);
+		resourceQuery.updated_at_to = toISOString(resourceQuery.updated_at_to);
 
 		var resourceUrl = appendQuery(apiUrl, resourceQuery);
 
