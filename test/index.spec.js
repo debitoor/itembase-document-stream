@@ -16,7 +16,7 @@ describe('itembase document stream', function() {
 
 		before(function() {
 			apiServer = nock(config.api, {
-					reqHeaders: {
+					reqheaders: {
 						Authorization: 'Bearer test_access_token'
 					}
 				})
@@ -78,7 +78,7 @@ describe('itembase document stream', function() {
 
 		before(function() {
 			expiredApiServer = nock(config.api, {
-					reqHeaders: {
+					reqheaders: {
 						Authorization: 'Bearer test_access_token'
 					}
 				})
@@ -90,7 +90,7 @@ describe('itembase document stream', function() {
 				.reply(401);
 
 			apiServer = nock(config.api, {
-					reqHeaders: {
+					reqheaders: {
 						Authorization: 'Bearer test_access_token_new'
 					}
 				})
