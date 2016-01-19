@@ -4,7 +4,9 @@
   "description": "Stream itembase documents",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "teamcity": "./teamcity.sh",
+    "test-teamcity": "mocha -R mocha-teamcity-reporter"
   },
   "repository": {
     "type": "git",
@@ -20,6 +22,7 @@
     "concat-stream": "^1.4.8",
     "mocha": "^2.1.1",
     "mocha-jshint": "^2.1.1",
+    "mocha-teamcity-reporter": "^1.0.0",
     "nock": "^1.6.1",
     "pump": "^1.0.0"
   },
